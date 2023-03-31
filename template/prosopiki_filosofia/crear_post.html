@@ -1,5 +1,10 @@
 {% extends 'index.html' %}
 {% block cambios %}
+    {% if msg == 'OK' %}
+    <div class="alert alert-success" role="alert">
+        Post creado satisfactoriamente!
+    </div>
+    {% endif %}
     <div class="text-center mb-3">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

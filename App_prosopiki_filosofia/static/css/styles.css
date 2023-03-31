@@ -10824,3 +10824,9 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+.posteos{
+  color:white;
+  text-decoration: none;
+  text-shadow: 2px 2px 2px #000;
+}

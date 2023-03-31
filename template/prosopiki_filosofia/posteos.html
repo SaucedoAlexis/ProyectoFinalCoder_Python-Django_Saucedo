@@ -1,14 +1,17 @@
 {% extends 'index.html' %}
 
-{% block cambio %}
-    <div class="card mb-4">
-        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..."/></a>
-        <div class="card-body">
-            <div class="small text-muted">January 1, 2023</div>
-            <h2 class="card-title h4">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
-                nulla.</p>
-            <a class="btn btn-primary" href="#!">Read more →</a>
+{% block cambios %}
+    <div class="container text-center mb-3">
+        <div class="row" >
+            <div class="col badge text-bg-info" style="">
+                <a href="{% url 'crearPost' %}" class="posteos"> <h2>Crear Post</h2></a>
+            </div>
+            <div class="col badge text-bg-warning">
+                <a href="" class="posteos"> <h2>Buscar Post</h2></a>
+            </div>
+            <div class="col badge text-bg-secondary">
+                <a href="{% url 'posteosTodos' %}" class="posteos"> <h2>Ver todos los post</h2> </a>
+            </div>
         </div>
     </div>
 {% endblock %}

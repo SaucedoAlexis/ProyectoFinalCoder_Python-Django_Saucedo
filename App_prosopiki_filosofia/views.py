@@ -37,3 +37,13 @@ def crear_post(request):
         'form': BlogForm()
     }
     return render(request, 'prosopiki_filosofia/crear_post.html', context=context)
+
+def posteos(request):
+    return render(request, 'prosopiki_filosofia/posteos.html')
+
+def todos_los_posteos(request):
+
+    context = {
+        'posteos': Blog.objects.all()
+    }
+    return render(request, 'prosopiki_filosofia/todos_los_posteos.html', context=context)

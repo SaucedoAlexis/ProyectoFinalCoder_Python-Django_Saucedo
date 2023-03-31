@@ -7,5 +7,5 @@ class Blog(models.Model):
     subtitulo = models.CharField(max_length=255)
     cuerpo = models.TextField()
     autor = models.CharField(max_length=20)
-    fecha = models.DateTimeField()
+    fecha = models.DateField()
     imagen = models.ImageField(upload_to='img_post')
