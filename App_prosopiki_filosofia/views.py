@@ -42,8 +42,8 @@ def posteos(request):
     return render(request, 'prosopiki_filosofia/posteos.html')
 
 def todos_los_posteos(request):
-
+    print(Blog.objects.all())
     context = {
         'posteos': Blog.objects.all()
     }
-    return render(request, 'prosopiki_filosofia/todos_los_posteos.html', context=context)
+    return render(request, 'prosopiki_filosofia/todos_los_posteos.html')

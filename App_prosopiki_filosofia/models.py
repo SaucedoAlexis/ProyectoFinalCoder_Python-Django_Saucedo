@@ -8,4 +8,9 @@ class Blog(models.Model):
     cuerpo = models.TextField()
     autor = models.CharField(max_length=20)
     fecha = models.DateField()
+
+
+class Blogimg(models.Model):
+    blog_id = models.OneToOneField(Blog, on_delete=models.CASCADE)
+
     imagen = models.ImageField(upload_to='img_post')

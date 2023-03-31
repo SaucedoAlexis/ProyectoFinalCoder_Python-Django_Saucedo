@@ -5,9 +5,10 @@ from django.forms.widgets import DateInput
 class BlogForm(forms.ModelForm):
 
     fecha = forms.DateField(widget=DateInput(attrs={'type': 'date','class': 'my-datepicker'}))
+    imagen = forms.ImageField()
     class Meta:
         model = Blog
-        fields = ['titulo','subtitulo','cuerpo','autor','imagen']
+        fields = ['titulo','subtitulo','cuerpo','autor']
 
 class BusquedaBlogForm(forms.Form):
     id = forms.ModelChoiceField(queryset=Blog.objects.all(), empty_label=None)
