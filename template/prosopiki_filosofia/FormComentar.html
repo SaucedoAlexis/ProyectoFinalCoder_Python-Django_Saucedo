@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+{% block cambios %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+    <input type="submit" value="Postear!">
+    </form>
+{% endblock %}

@@ -1,8 +1,13 @@
+
+
 from django.db import models
+
+
 
 
 # Create your models here.
 class Blog(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     titulo = models.CharField(max_length=255)
     subtitulo = models.CharField(max_length=255)
     cuerpo = models.TextField()
@@ -10,7 +15,14 @@ class Blog(models.Model):
     fecha = models.DateField()
 
 
+
+
 class Blogimg(models.Model):
-    blog_id = models.OneToOneField(Blog, on_delete=models.CASCADE)
+    blog = models.OneToOneField(Blog, on_delete=models.CASCADE)
 
     imagen = models.ImageField(upload_to='img_post')
+
+class Blogcomment(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    visto = models.BooleanField(default=False)
+    comment = models.TextField()

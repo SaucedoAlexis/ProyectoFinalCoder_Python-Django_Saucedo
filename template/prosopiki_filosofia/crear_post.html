@@ -4,6 +4,10 @@
     <div class="alert alert-success" role="alert">
         Post creado satisfactoriamente!
     </div>
+        {% elif msg == 'NO' %}
+        <div class="alert alert-danger" role="alert">
+        Hubo un error creando el post, asegurese de que los datos estén correctos como que el año no supere los 4 dígitos
+        </div>
     {% endif %}
     <div class="text-center mb-3">
     <form method="post" enctype="multipart/form-data">
@@ -11,5 +15,7 @@
         {{ form.as_p }}
     <input type="submit" value="Crear">
     </form>
+        <a href="{% url 'posteosTodos' %}">Ir a todos los posteos</a>
     </div>
+
 {% endblock %}

@@ -10,6 +10,13 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.coloraposteos{
+  color:white;
+  text-decoration: none;
+  text-shadow: 2px 2px 2px #000;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -10825,8 +10832,3 @@ textarea.form-control-lg {
   }
 }
 
-.posteos{
-  color:white;
-  text-decoration: none;
-  text-shadow: 2px 2px 2px #000;
-}

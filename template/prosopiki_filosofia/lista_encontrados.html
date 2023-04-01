@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+
+{% block cambios %}
+    <table class="table text-center">
+  <thead>
+    <tr>
+      <th scope="col">Titulo</th>
+      <th scope="col">Autor</th>
+      <th scope="col">Imagen</th>
+        <th scope="col">Acciones</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in objects %}
+    <tr>
+      <th scope="row" style="vertical-align: middle">{{ object.titulo }}</th>
+      <td style="vertical-align: middle">{{object.autor}}</td>
+      <td><img src="{{object.blogimg.imagen.url}}" width="300px"></td>
+    <td><a href="{% url 'PostCompleto' object.id %}">ver más...</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

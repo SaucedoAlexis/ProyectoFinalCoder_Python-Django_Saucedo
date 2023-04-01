@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block cambios %}
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col">Titulo</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Acciones</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+
+            <tr>
+                <th scope="row" style="vertical-align: middle">{{ blog.titulo }}</th>
+                <td style="vertical-align: middle">{{ blog.autor }}</td>
+                <td><img src="{{ blog.blogimg.imagen.url }}" width="300px" alt="post imagen"></td>
+                <td><a href="{% url 'PostCompleto' blog.id %}">ver más...</a></td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
