@@ -85,17 +85,16 @@ def buscar_post(request):
 
 
 def ver_mas(request, id):
-    #Sección qu
     get_post = Blog.objects.get(id=id)
     get_comment = Blogcomment.objects.filter(blog=get_post)
-    get_usercomment = UserComment.objects.filter(user=request.user)
+
     context = {
         'field': get_post,
         'comments': get_comment,
-        'usercomments': get_usercomment,
+
     }
 
-    return render(request, 'prosopiki_filosofia/ver_mas.html',context= context)
+    return render(request, 'prosopiki_filosofia/ver_mas.html', context=context)
 
 
 @user_passes_test(lambda user: user.is_superuser)
@@ -216,3 +215,21 @@ def editar_comment(request, id):
         })
     }
     return render(request, 'prosopiki_filosofia/FormEditarComment.html', context)
+
+
+def mis_comentarios(request, id):
+    user = request.user
+    comments = Blogcomment.objects.filter(blog_id=id)
+    user_comments = UserComment.objects.filter(user=user)
+    blog_user_comments = []
+
+    for usercomment in user_comments:
+        for comment in comments:
+            if comment.id == usercomment.blogcomment_id:
+                blog_user_comments.append(comment)
+
+    context = {
+        'comments': blog_user_comments,
+
+    }
+    return render(request, 'prosopiki_filosofia/mis_comentarios.html', context)

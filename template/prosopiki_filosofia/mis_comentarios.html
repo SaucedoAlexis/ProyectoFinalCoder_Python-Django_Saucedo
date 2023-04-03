@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block cambios %}
+    <div class="container">
+        {% for comment in comments %}
+        <div class="row shadow-lg">
+
+
+                <div class="col-8">
+                    <p class="display-3"><b>mensaje:</b> {{ comment.comment }}</p>
+                </div>
+                <div class="col-4 mt-3" style="display: grid" >
+                    <a href="{% url 'BorrarComentario' comment.id %}"
+                       style="border: 1px solid #777;margin: auto">Eliminar</a>
+                    <a href="{% url 'EditarComentario' comment.id %}" class="text-center">Editar</a>
+                </div>
+
+
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

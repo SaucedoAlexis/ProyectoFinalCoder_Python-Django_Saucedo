@@ -52,10 +52,7 @@
 
                                     {% for usercomment in usercomments %}
 
-                                            {% if usercomment.user_id == user_id %}
-                                                <a href="{% url 'BorrarComentario' comment.id %}">Eliminar</a>
-                                                <a href="{% url 'EditarComentario' comment.id %}">Editar</a>
-                                            {% endif %}
+
 
                                     {% endfor %}
 
@@ -69,7 +66,7 @@
         <hr>
         {% if user.is_authenticated %}
             <a href="{% url 'Comentar' field.id %}" style="font-size: 4rem;text-decoration: None">Comentar</a>
-            <a href="" style="font-size: 4rem;text-decoration: None">Modificar mis mensajes</a>
+            <a href="{% url 'MisMensajes' field.id %}" style="font-size: 4rem;text-decoration: None">Modificar mis mensajes</a>
         {% else %}
             <p class="display-5">Debe estar logeado para poder comentar o modificar tus comentarios</p><a href="{% url 'accountLogin' %}" class="display-5">Logearse</a>
         {% endif %}
