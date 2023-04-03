@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App_prosopiki_filosofia'
+    'App_prosopiki_filosofia',
+    'Account'
 ]
 
 MIDDLEWARE = [

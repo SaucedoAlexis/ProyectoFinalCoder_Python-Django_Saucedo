@@ -3,38 +3,40 @@
 {% block cambios %}
     {% if posteos %}
 
-    <div class="container text-center">
-        <div class="row">
-            {% for post in posteos %}
+        <div class="container text-center">
+            <div class="row">
+                {% for post in posteos %}
 
-            <div class="col">
+                    <div class="col">
 
-                <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 18rem;">
 
-                    <img src="{{ post.blogimg.imagen.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
+                            <img src="{{ post.blogimg.imagen.url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
 
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Autor: {{ post.autor }}</li>
-                            <li class="list-group-item">Título: {{ post.titulo}}</li>
-                            <li class="list-group-item">
-                                <a href="{% url 'PostCompleto' post.id %}" class="mx-2">ver más...</a>
-                                <a href="{% url 'EditarPost' post.id %}" class="mx-2">Editar</a>
-                                <a href="{% url 'EliminarPost' post.id %}" class="mx-2">Eliminar</a>
-                            </li>
-                        </ul>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Autor: {{ post.autor }}</li>
+                                    <li class="list-group-item">Título: {{ post.titulo }}</li>
+                                    <li class="list-group-item">
+                                        <a href="{% url 'PostCompleto' post.id %}" class="mx-2">ver más...</a>
+                                        {% if user.is_superuser %}
+                                            <a href="{% url 'EditarPost' post.id %}" class="mx-2">Editar</a>
+                                            <a href="{% url 'EliminarPost' post.id %}" class="mx-2">Eliminar</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
 
                     </div>
-                </div>
-
+                {% endfor %}
             </div>
-{% endfor %}
         </div>
-    </div>
 
     {% else %}
-    <div class="alert alert-danger" role="alert">
-        No hay posteos aún
-    </div>
+        <div class="alert alert-danger" role="alert">
+            No hay posteos aún
+        </div>
     {% endif %}
 {% endblock %}

@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 
-
+from Account.models import UserComment
 from App_prosopiki_filosofia.forms import BlogForm, BusquedaBlogForm, BlogCommentForm
 from App_prosopiki_filosofia.models import Blog, Blogimg, Blogcomment
 
@@ -15,6 +16,7 @@ def sobre_mi(request):
     return render(request, 'prosopiki_filosofia/sobre_mi.html')
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def crear_post(request):
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES)
@@ -65,8 +67,8 @@ def todos_los_posteos(request):
 
     return render(request, 'prosopiki_filosofia/todos_los_posteos.html', context)
 
-def busqueda_post(request):
 
+def busqueda_post(request):
     form = BusquedaBlogForm(request.GET)
     if form.is_valid():
         data = form.cleaned_data
@@ -75,28 +77,33 @@ def busqueda_post(request):
         context = {
             'objects': resultados
         }
-    return render(request,'prosopiki_filosofia/lista_encontrados.html', context = context)
+    return render(request, 'prosopiki_filosofia/lista_encontrados.html', context=context)
+
 
 def buscar_post(request):
+    return render(request, 'prosopiki_filosofia/buscar_post.html', {'form': BusquedaBlogForm()})
 
-    return render(request, 'prosopiki_filosofia/buscar_post.html', {'form':BusquedaBlogForm()})
 
-def ver_mas(request,id):
+def ver_mas(request, id):
+    #Sección qu
     get_post = Blog.objects.get(id=id)
     get_comment = Blogcomment.objects.filter(blog=get_post)
+    get_usercomment = UserComment.objects.filter(user=request.user)
+    context = {
+        'field': get_post,
+        'comments': get_comment,
+        'usercomments': get_usercomment,
+    }
 
-    return render(request, 'prosopiki_filosofia/ver_mas.html',
-                  context = {
-                      'field':get_post,
-                  'comments': get_comment})
+    return render(request, 'prosopiki_filosofia/ver_mas.html',context= context)
 
-def editar_post(request,id):
+
+@user_passes_test(lambda user: user.is_superuser)
+def editar_post(request, id):
     get_post = Blog.objects.get(id=id)
     get_blogimg = get_post.blogimg
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES)
-
-
 
         if form.is_valid():
             data = form.cleaned_data
@@ -109,15 +116,8 @@ def editar_post(request,id):
 
             get_post.save()
 
-
-
             get_blogimg.imagen = data['imagen']
             get_blogimg.save()
-
-
-
-
-
 
             return redirect('posteosTodos')
     context = {
@@ -131,14 +131,18 @@ def editar_post(request,id):
             'imagen': get_blogimg.imagen
         })
     }
-    return render(request, 'prosopiki_filosofia/editar_post.html',context)
+    return render(request, 'prosopiki_filosofia/editar_post.html', context)
 
-def eliminar_post(request,id):
+
+@user_passes_test(lambda user: user.is_superuser)
+def eliminar_post(request, id):
     get_post = Blog.objects.get(id=id)
     get_post.delete()
     return redirect('posteosTodos')
 
-def comentar(request,id):
+
+@user_passes_test(lambda user: user.is_authenticated)
+def comentar(request, id):
     blog = Blog.objects.get(id=id)
 
     if request.method == 'POST':
@@ -148,16 +152,20 @@ def comentar(request,id):
             comment = Blogcomment(
                 blog=blog,
                 comment=data['comment']
-                )
+            )
             comment.save()
+            user_comment = UserComment(blogcomment=comment, user=request.user)
+            user_comment.save()
             return redirect('PostCompleto', id=comment.blog_id)
     context = {
         'form': BlogCommentForm()
     }
     return render(request, 'prosopiki_filosofia/FormComentar.html', context)
 
+
+@user_passes_test(lambda user: user.is_superuser)
 def mensajes_en_blogs(request):
-    get_posts= Blog.objects.all()
+    get_posts = Blog.objects.all()
     posts = []
     for post in get_posts:
         for comm in Blogcomment.objects.filter(blog=post):
@@ -165,25 +173,29 @@ def mensajes_en_blogs(request):
                 posts.append(post)
                 break
 
-
     return render(request, 'prosopiki_filosofia/comentarios_post.html', context={
         'blogs': posts
     })
 
-def marcar_visto(request,id):
 
+@user_passes_test(lambda user: user.is_superuser)
+def marcar_visto(request, id):
     comment = Blogcomment.objects.get(id=id)
     comment.visto = not comment.visto
     comment.save()
     return redirect('PostCompleto', id=comment.blog_id)
 
-def borrar_comment(request,id):
+
+@user_passes_test(lambda user: user.is_authenticated and Blogcomment(user))
+def borrar_comment(request, id):
     comment = Blogcomment.objects.get(id=id)
     id = comment.blog_id
     comment.delete()
     return redirect('PostCompleto', id=id)
 
-def editar_comment(request,id):
+
+@user_passes_test(lambda user: user.is_authenticated and Blogcomment(id=user.id))
+def editar_comment(request, id):
     get_comment = Blogcomment.objects.get(id=id)
     id = get_comment.blog_id
     if request.method == 'POST':

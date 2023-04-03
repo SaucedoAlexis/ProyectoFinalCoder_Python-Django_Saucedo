@@ -14,54 +14,64 @@
 
     <div>
         <hr>
-            <h2 class="text-center">Comentarios</h2>
+            <h2 class="text-center">Comentarios</h2></p>
         <hr>
+
         {% for comment in comments %}
             <form action="{% url 'Visto' comment.id %}" method="post">
             {% csrf_token %}
-                {% if comment.visto %}
+
                     <div class="container text-center">
                         <div class="row">
                             <hr>
                             <div class="col">
+                                {% if user.is_superuser %}
+                                    {% if comment.visto %}
 
-                                <p class="display-6">mensaje: {{ comment.comment }} <b style="color:green">[Visto]</b>
-                                </p>
+                                        <p class="display-6"><b>mensaje:</b> {{ comment.comment }} <b
+                                                style="color:green">[Visto]</b></p>
+
+                                    {% else %}
+
+                                        <p class="display-6"><b>mensaje:</b> {{ comment.comment }}</p>
+
+                                    {% endif %}
+                                {% else %}
+                                    <p class="display-6"><b>mensaje:</b> {{ comment.comment }}</p>
+                                {% endif %}
+
                             </div>
-                            <div class="col">
-                                <input type="submit" value="Desmarcar como visto">
-                            </div>
-                            <div class="col">
-                                <a href="{% url 'BorrarComentario' comment.id %}">Eliminar</a>
 
+                            <div class="col">
+                                {% if user.is_superuser %}
+                                    {% if comment.visto %}
+                                        <input type="submit" value="Desmarcar como visto">
+                                    {% else %}
+                                        <input type="submit" value="Marcar como visto">
+                                    {% endif %}
 
-                                <a href="{% url 'EditarComentario' comment.id %}">Editar</a>
+                                    {% for usercomment in usercomments %}
+
+                                            {% if usercomment.user_id == user_id %}
+                                                <a href="{% url 'BorrarComentario' comment.id %}">Eliminar</a>
+                                                <a href="{% url 'EditarComentario' comment.id %}">Editar</a>
+                                            {% endif %}
+
+                                    {% endfor %}
+
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
-                {% else %}
-                    <div class="container">
-                        <div class="row">
-                            <hr>
-                            <div class="col">
-
-                                <p class="display-6">mensaje: {{ comment.comment }}</p>
-                            </div>
-                            <div class="col">
-                                <input type="submit" value="Marcar como visto">
-                            </div>
-                            <div class="col">
-                                <a href="EliminarComentario">Eliminar</a>
-                            </div>
-                            <div class="col">
-                                <a href="EditarComentario">Editar</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
             </form>
         {% endfor %}
         <hr>
-        <a href="{% url 'Comentar' field.id %}" style="font-size: 4rem;text-decoration: None">Comentar</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'Comentar' field.id %}" style="font-size: 4rem;text-decoration: None">Comentar</a>
+            <a href="" style="font-size: 4rem;text-decoration: None">Modificar mis mensajes</a>
+        {% else %}
+            <p class="display-5">Debe estar logeado para poder comentar o modificar tus comentarios</p><a href="{% url 'accountLogin' %}" class="display-5">Logearse</a>
+        {% endif %}
     </div>
 {% endblock %}

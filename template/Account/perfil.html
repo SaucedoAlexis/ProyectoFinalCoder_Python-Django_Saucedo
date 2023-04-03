@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{# imagen - nombre - descripción -  un link a una página web - email y contraseña. #}
+{% block cambios %}
+    <p>username: {{ usuario.username }}</p>
+    <p>nombre: {{ perfil.nombre }}</p>
+    <p>descripción: {{ perfil.descripcion }}</p>
+    <p>Pagina Web: {{ perfil.pagina_web }}</p>
+    <p>Email: {{ usuario.email }}</p>
+
+
+    <a href="{% url 'accountEditar' %}">Editar Perfil</a>
+{% endblock %}
