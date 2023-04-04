@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from Account.models import UserProfile
+from django.contrib.auth.models import User
 from Account.forms import UserRegistrerForm, UserEditForm
 
 
@@ -105,3 +106,12 @@ def perfil(request):
     usuario = request.user
 
     return render(request, 'Account/perfil.html', context={'usuario': usuario})
+
+def perfil_ajeno(request,username):
+    user = User.objects.get(username=username)
+
+    context = {
+        'usuario': user
+    }
+
+    return render(request, 'Account/perfil.html', context)

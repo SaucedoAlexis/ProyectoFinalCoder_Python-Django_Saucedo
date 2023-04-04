@@ -86,6 +86,7 @@ def buscar_post(request):
 
 def ver_mas(request, id):
     get_post = Blog.objects.get(id=id)
+
     get_comment = Blogcomment.objects.filter(blog=get_post)
 
     context = {
@@ -150,7 +151,8 @@ def comentar(request, id):
             data = form.cleaned_data
             comment = Blogcomment(
                 blog=blog,
-                comment=data['comment']
+                comment=data['comment'],
+                user_name=request.user
             )
             comment.save()
             user_comment = UserComment(blogcomment=comment, user=request.user)

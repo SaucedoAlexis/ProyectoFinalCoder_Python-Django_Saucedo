@@ -20,26 +20,28 @@
         <hr class="sepcom">
 
         {% for comment in comments %}
+
             <form action="{% url 'Visto' comment.id %}" method="post">
             {% csrf_token %}
 
-                    <div class="container text-center">
+                    <div class="container">
                         <div class="row">
 
                         {# Sección de visto o no visto para admin, por el otro lado mensaje normal para usuario normal #}
                             <div class="col">
                                 {% if user.is_superuser %}
                                     {% if comment.visto %}
-
+                                        <a href="{% url 'perfilAjeno' comment.user_name  %}" >{{ comment.user_name }}</a>
                                         <p class="display-6"><b>mensaje:</b> {{ comment.comment }} <b
                                                 style="color:green">[Visto]</b></p>
 
                                     {% else %}
-
-                                        <p class="display-6"><b>mensaje:</b> {{ comment.comment }}</p>
+                                        <a href="{% url 'perfilAjeno' comment.user_name  %}">{{ comment.user_name }}</a>
+                                        <p class="display-4">{{ comment.comment }}</p>
 
                                     {% endif %}
                                 {% else %}
+                                    <a href="{% url 'perfilAjeno' comment.user_name  %}" style="text-transform: capitalize">{{ comment.user_name }}</a>
                                     <p class="display-6"><b>mensaje:</b> {{ comment.comment }}</p>
                                 {% endif %}
 

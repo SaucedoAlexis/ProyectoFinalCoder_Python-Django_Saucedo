@@ -20,3 +20,5 @@ class BlogCommentForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea)
 
 
+
+

@@ -26,3 +26,4 @@ class Blogcomment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     visto = models.BooleanField(default=False)
     comment = models.TextField()
+    user_name = models.CharField(max_length=20)
