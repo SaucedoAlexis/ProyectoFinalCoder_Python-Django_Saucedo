@@ -1,0 +1,18 @@
+.acciones-ver_mas {
+
+    text-decoration: None;
+    border-radius: 20px;
+    margin: 1rem;
+    font-size: 2rem;
+
+    padding: 1rem;
+
+}
+
+.sepcom {
+    height: 10px;
+    border-width: 0;
+    background-color: #000000;
+    margin: 20px 0;
+    opacity: 100;
+}
