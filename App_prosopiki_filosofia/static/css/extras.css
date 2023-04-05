@@ -16,3 +16,10 @@
     margin: 20px 0;
     opacity: 100;
 }
+
+.formedit {
+    margin: 0px 30% 1rem 30%;
+    background-color: #fd7e1450;
+    padding: 20px;
+    border-radius: 15px;
+}
