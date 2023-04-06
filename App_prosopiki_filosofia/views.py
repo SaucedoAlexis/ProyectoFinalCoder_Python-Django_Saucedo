@@ -39,7 +39,7 @@ def crear_post(request):
             else:
                 imagen = Blogimg(
                     blog=blog,
-                    imagen='img_post/No-Image-Placeholder.svg.png'
+                    imagen='default/No_post_img.png'
                 )
             imagen.save()
 

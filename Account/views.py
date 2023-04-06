@@ -27,6 +27,7 @@ def editar_usuario(request):
                 user.userprofile.nombre = data['nombre']
                 user.userprofile.descripcion = data['descripcion']
                 user.userprofile.pagina_web = data['pagina_web']
+
                 if not data['imagen']:
                     user.userprofile.imagen = user.userprofile.imagen
                 else:
@@ -34,8 +35,13 @@ def editar_usuario(request):
 
                 user.userprofile.save()
             except:
+                if data['imagen']:
+                    imagen = data['imagen']
+                else:
+                    imagen = 'default/No_Avatar.jpg'
+
                 profile = UserProfile(user=user, nombre=data['nombre'], descripcion=data['descripcion'],
-                                      pagina_web=data['pagina_web'], imagen=data['imagen'])
+                                      pagina_web=data['pagina_web'], imagen=imagen)
                 profile.save()
 
 

@@ -41,7 +41,7 @@
                                 </ul>
                             </div>
 
-                            <li><img src="{{user.userprofile.imagen.url}}" alt="Imagen Avatar" width="40px" class="mx-2"></li>
+                            <li><img src="{{ user.userprofile.imagen.url }}" alt="Imagen Avatar" width="40px" class="mx-2"></li>
 
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'accountLogin' %}">Login</a></li>
