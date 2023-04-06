@@ -184,5 +184,5 @@ cython_debug/
 
 # media
 media/avatares
-media
+media/img_post
 !media/default/
