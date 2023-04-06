@@ -10,10 +10,9 @@ Prosopiki Filosofía - Blog de Filosofía de la vida
 
 ## Descripción del Proyecto
 
-Este blog se dedicará a expresar diferentes ideas sobre autores como Lucius Annaeus Seneca, Marco Aurelio, Friedrich Nietzsche, entre otros.
-Los cuales hablaban sobre el desarrollo personal y la forma de enfrentar la vida.
+Este blog se concentra en un administrador que postea cosas sobre filosofía y usuarios que comentan lo posteado.
 
-En este blog se podrán realizar las siguientes acciones
+## En este blog se podrán realizar las siguientes acciones
 
 Como usuario:
 - Ver Todos los posteos
@@ -38,7 +37,6 @@ Como Administrador:
 ##### Front-End
 - HTML 5
 - CSS 3
-- 
 - Bootstrap 5.2
 
 ##### Back-End
