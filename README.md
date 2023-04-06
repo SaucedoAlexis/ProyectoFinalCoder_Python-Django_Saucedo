@@ -14,6 +14,8 @@ Este blog se concentra en un administrador que postea cosas sobre filosofía y u
 
 ## En este blog se podrán realizar las siguientes acciones
 
+La página de inicio tendrá el siguiente URL : http://127.0.0.1:8000/prosopiki_filosofia/
+
 Como usuario:
 - Ver Todos los posteos
 - Ver sus descripciones completas
