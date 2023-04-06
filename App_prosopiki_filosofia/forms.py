@@ -17,7 +17,7 @@ class BusquedaBlogForm(forms.Form):
     titulo = forms.CharField(min_length=3, required=False)
 
 class BlogCommentForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea)
+    comentario = forms.CharField(widget=forms.Textarea)
 
 
 

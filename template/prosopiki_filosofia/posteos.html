@@ -1,17 +1,17 @@
 {% extends 'index.html' %}
 
 {% block cambios %}
-    <div class="container text-center mb-3">
-        <div class="row" >
+    <div class="container text-center">
+        <div class="row mb-3" >
             {% if user.is_superuser %}
-                <div class="col badge text-bg-info">
+                <div class="col badge text-bg-info" style="margin-right: 2rem">
 
                     <a href="{% url 'crearPost' %}"
-                       style="color:white;text-decoration: none;text-shadow: 2px 2px 2px #000;"><h2>Crear Post</h2></a>
+                       style="color:white;text-decoration: none;text-shadow: 2px 2px 2px #000;"><h2 >Crear Post</h2></a>
 
                 </div>
             {% endif %}
-            <div class="col badge text-bg-warning">
+            <div class="col badge text-bg-warning" style="margin-right: 2rem">
                 <a href="{% url 'BuscarPost' %}" style="color:white;text-decoration: none;text-shadow: 2px 2px 2px #000;"> <h2>Buscar Post</h2></a>
             </div>
             <div class="col badge text-bg-secondary">

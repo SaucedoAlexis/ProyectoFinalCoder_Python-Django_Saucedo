@@ -16,6 +16,7 @@ def editar_usuario(request):
 
         form = UserEditForm(request.POST, request.FILES)
 
+
         if form.is_valid():
 
             data = form.cleaned_data
@@ -26,15 +27,42 @@ def editar_usuario(request):
                 user.userprofile.nombre = data['nombre']
                 user.userprofile.descripcion = data['descripcion']
                 user.userprofile.pagina_web = data['pagina_web']
-                user.userprofile.imagen = data['imagen']
+                if not data['imagen']:
+                    user.userprofile.imagen = user.userprofile.imagen
+                else:
+                    user.userprofile.imagen = data['imagen']
+
                 user.userprofile.save()
             except:
                 profile = UserProfile(user=user, nombre=data['nombre'], descripcion=data['descripcion'],
                                       pagina_web=data['pagina_web'], imagen=data['imagen'])
                 profile.save()
 
-            print('estoy acá')
+
             return redirect('inicio')
+        else:
+            try:
+                form = UserEditForm(initial={
+                    'username': user.username,
+                    'email': user.email,
+                    'imagen': user.userprofile.imagen,
+                    'nombre': user.userprofile.nombre,
+                    'descripcion': user.userprofile.descripcion,
+                    'pagina_web': user.userprofile.pagina_web,
+
+                })
+            except:
+                form = UserEditForm(initial={
+                    'email': user.email})
+
+            context = {
+                'form': form,
+                'titulo': 'Editar Usuario',
+                'accion': 'Editar',
+                'msg': 'Error al editar usuario, revise que el password sea correcto'
+            }
+
+            return render(request, 'form.html', context=context)
 
     try:
         form = UserEditForm(initial={
@@ -53,10 +81,10 @@ def editar_usuario(request):
     context = {
         'form': form,
         'titulo': 'Editar Usuario',
-        'enviar': 'Editar'
+        'accion': 'Editar'
     }
 
-    return render(request, 'account/form.html', context=context)
+    return render(request, 'form.html', context=context)
 
 
 def login_account(request):
@@ -77,10 +105,10 @@ def login_account(request):
     context = {
         "form": AuthenticationForm(),
         'titulo': 'Logearse',
-        'enviar': 'Logear'
+        'accion': 'Logear'
     }
 
-    return render(request, "account/form.html", context=context)
+    return render(request, "form.html", context=context)
 
 
 def register_account(request):
@@ -91,15 +119,24 @@ def register_account(request):
         if form.is_valid():
             form.save()
             return redirect('accountLogin')
-    # UserCreationForm()
+        else:
+            context = {
+                'form': form,
+                'titulo': 'Registrar Cuenta',
+                'accion': 'Registrar',
+                'msg': 'Registro fallido revise que su password sea correcto'
+
+            }
+            return render(request, 'form.html', context=context)
+
     form = UserRegistrerForm()
     context = {
         'form': form,
         'titulo': 'Registrar Cuenta',
-        'enviar': 'Registrar'
+        'accion': 'Registrar'
     }
 
-    return render(request, 'account/form.html', context=context)
+    return render(request, 'form.html', context=context)
 
 @user_passes_test(lambda user: user.is_authenticated)
 def perfil(request):

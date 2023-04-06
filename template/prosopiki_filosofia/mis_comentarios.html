@@ -3,11 +3,11 @@
 {% block cambios %}
     <div class="container">
         {% for comment in comments %}
-        <div class="row shadow-lg">
+        <div class="row shadow-lg comment">
 
 
                 <div class="col-8">
-                    <p class="display-3"><b>mensaje:</b> {{ comment.comment }}</p>
+                    <p class="display-3"> {{ comment.comment }}</p>
                 </div>
                 <div class="col-4 mt-3" style="display: grid" >
                     <a href="{% url 'BorrarComentario' comment.id %}"

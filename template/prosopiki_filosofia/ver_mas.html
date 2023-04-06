@@ -2,65 +2,70 @@
 
 
 {% block cambios %}
-
-    <div class="text-center">
-        <h2 class="text-center">{{ field.titulo }}</h2>
-        <h3 class="text-center">{{ field.subtitulo }}</h3>
-        <div class="text-center">
-            <img src="{{ field.blogimg.imagen.url }}" width="400px">
+    <div class="comment">
+    <div class=" mb-3 text-center">
+        <h2>{{ field.titulo }}</h2>
+        <div style="text-align: center; display: flex; justify-content: center; align-items: center;">
+            <img src="{{ field.blogimg.imagen.url }}" width="300px" style="display: inline-block;">
         </div>
-        <p>{{ field.cuerpo }}</p>
-        <h4>{{ field.autor }}</h4>
-        <h4>{{ field.fecha }}</h4>
+
+        <h3>{{ field.subtitulo }}</h3>
     </div>
+        <p>{{ field.cuerpo }}</p>
+
+        <h3 style="display: inline;margin-right: 1rem">{{ field.autor }}</h3>
+        <h3 style="display: inline">{{ field.fecha }}</h3>
+    </div>
+
+    </div>
+
 
     <div class="m-4">
 
-            <h2 class="text-center">Comentarios</h2></p>
+        <h2>Comentarios</h2></p>
         <hr class="sepcom">
 
         {% for comment in comments %}
 
             <form action="{% url 'Visto' comment.id %}" method="post">
-            {% csrf_token %}
+                {% csrf_token %}
 
-                    <div class="container">
-                        <div class="row">
+                <div class="container">
+                    <div class="row">
 
                         {# Sección de visto o no visto para admin, por el otro lado mensaje normal para usuario normal #}
-                            <div class="col">
-                                {% if user.is_superuser %}
+                        <div class="col">
+                            {% if user.is_superuser %}
+
+                                <div class="comment">
+
+                                    <a href="{% url 'perfilAjeno' comment.user_name %}">{{ comment.user_name }}</a>
+                                    <p class="display-6"> {{ comment.comment }}</p>
                                     {% if comment.visto %}
-                                        <a href="{% url 'perfilAjeno' comment.user_name  %}" >{{ comment.user_name }}</a>
-                                        <p class="display-6"><b>mensaje:</b> {{ comment.comment }} <b
-                                                style="color:green">[Visto]</b></p>
-
-                                    {% else %}
-                                        <a href="{% url 'perfilAjeno' comment.user_name  %}">{{ comment.user_name }}</a>
-                                        <p class="display-4">{{ comment.comment }}</p>
-
-                                    {% endif %}
-                                {% else %}
-                                    <a href="{% url 'perfilAjeno' comment.user_name  %}" style="text-transform: capitalize">{{ comment.user_name }}</a>
-                                    <p class="display-6"><b>mensaje:</b> {{ comment.comment }}</p>
-                                {% endif %}
-
-                            </div>
-                            {# seccion de vistos si es superuser #}
-                            <div class="col">
-                                {% if user.is_superuser %}
-                                    {% if comment.visto %}
+                                        <b style="color:green">[Visto]</b></p>
                                         <input type="submit" value="Desmarcar como visto">
                                     {% else %}
                                         <input type="submit" value="Marcar como visto">
                                     {% endif %}
-                                {% endif %}
 
 
+                                </div>
+                                {% else %}
+                                    <div class="comment">
+                                        <a href="{% url 'perfilAjeno' comment.user_name %}">{{ comment.user_name }}</a>
+                                        <p class="display-6">{{ comment.comment }}</p>
 
-                            </div>
+                                    </div>
+
+                        {% endif %}
+
+
                         </div>
+                        {# seccion de vistos si es superuser #}
+
+
                     </div>
+                </div>
             </form>
         {% endfor %}
         {# Sección de acciones del usuario #}

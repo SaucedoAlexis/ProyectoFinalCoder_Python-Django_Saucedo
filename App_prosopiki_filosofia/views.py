@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 
 from Account.models import UserComment
@@ -31,11 +31,16 @@ def crear_post(request):
                 fecha=data['fecha']
             )
             blog.save()
-
-            imagen = Blogimg(
-                blog=blog,
-                imagen=data['imagen']
-            )
+            if data['imagen']:
+                imagen = Blogimg(
+                    blog=blog,
+                    imagen=data['imagen']
+                )
+            else:
+                imagen = Blogimg(
+                    blog=blog,
+                    imagen='img_post/No-Image-Placeholder.svg.png'
+                )
             imagen.save()
 
             context = {
@@ -101,7 +106,7 @@ def ver_mas(request, id):
 @user_passes_test(lambda user: user.is_superuser)
 def editar_post(request, id):
     get_post = Blog.objects.get(id=id)
-    get_blogimg = get_post.blogimg
+    get_blogimg = Blogimg.objects.get(blog_id=id)
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES)
 
@@ -114,24 +119,31 @@ def editar_post(request, id):
             get_post.subtitulo = data['subtitulo']
             get_post.fecha = data['fecha']
 
+
+            if not data['imagen']:
+                get_blogimg.imagen = get_blogimg.imagen
+            else:
+                get_blogimg.imagen = data['imagen']
+
+            get_blogimg.save()
             get_post.save()
 
-            get_blogimg.imagen = data['imagen']
-            get_blogimg.save()
+
 
             return redirect('posteosTodos')
     context = {
         'id': get_post.id,
+        'accion': 'Editar!',
         'form': BlogForm(initial={
             'titulo': get_post.titulo,
             'autor': get_post.autor,
             'subtitulo': get_post.subtitulo,
             'cuerpo': get_post.cuerpo,
             'fecha': get_post.fecha,
-            'imagen': get_blogimg.imagen
+            'imagen': get_post.blogimg.imagen
         })
     }
-    return render(request, 'prosopiki_filosofia/editar_post.html', context)
+    return render(request, 'form.html', context)
 
 
 @user_passes_test(lambda user: user.is_superuser)
@@ -144,6 +156,10 @@ def eliminar_post(request, id):
 @user_passes_test(lambda user: user.is_authenticated)
 def comentar(request, id):
     blog = Blog.objects.get(id=id)
+    user = request.user
+    is_super_user = False
+    if user.is_superuser:
+        is_super_user = True
 
     if request.method == 'POST':
         form = BlogCommentForm(request.POST)
@@ -151,17 +167,20 @@ def comentar(request, id):
             data = form.cleaned_data
             comment = Blogcomment(
                 blog=blog,
-                comment=data['comment'],
-                user_name=request.user
+                comment=data['comentario'],
+                user_name=user,
+                visto=is_super_user
+
             )
             comment.save()
             user_comment = UserComment(blogcomment=comment, user=request.user)
             user_comment.save()
             return redirect('PostCompleto', id=comment.blog_id)
     context = {
-        'form': BlogCommentForm()
+        'form': BlogCommentForm(),
+        'accion': 'Comentar!'
     }
-    return render(request, 'prosopiki_filosofia/FormComentar.html', context)
+    return render(request, 'form.html', context)
 
 
 @user_passes_test(lambda user: user.is_superuser)
@@ -173,10 +192,10 @@ def mensajes_en_blogs(request):
             if not comm.visto:
                 posts.append(post)
                 break
-
-    return render(request, 'prosopiki_filosofia/comentarios_post.html', context={
+    context = {
         'blogs': posts
-    })
+    }
+    return render(request, 'prosopiki_filosofia/comentarios_post.html', context=context)
 
 
 @user_passes_test(lambda user: user.is_superuser)
@@ -187,7 +206,7 @@ def marcar_visto(request, id):
     return redirect('PostCompleto', id=comment.blog_id)
 
 
-@user_passes_test(lambda user: user.is_authenticated and Blogcomment(user))
+@user_passes_test(lambda user: user.is_authenticated)
 def borrar_comment(request, id):
     comment = Blogcomment.objects.get(id=id)
     id = comment.blog_id
@@ -195,7 +214,7 @@ def borrar_comment(request, id):
     return redirect('PostCompleto', id=id)
 
 
-@user_passes_test(lambda user: user.is_authenticated and Blogcomment(id=user.id))
+@user_passes_test(lambda user: user.is_authenticated)
 def editar_comment(request, id):
     get_comment = Blogcomment.objects.get(id=id)
     id = get_comment.blog_id
@@ -205,20 +224,21 @@ def editar_comment(request, id):
         if form.is_valid():
             data = form.cleaned_data
 
-            get_comment.comment = data['comment']
+            get_comment.comment = data['comentario']
 
             get_comment.save()
 
             return redirect('PostCompleto', id=id)
     context = {
+        'accion': 'Editar!',
         'id': id,
         'form': BlogCommentForm(initial={
-            'comment': get_comment.comment
+            'comentario': get_comment.comment
         })
     }
-    return render(request, 'prosopiki_filosofia/FormEditarComment.html', context)
+    return render(request, 'form.html', context)
 
-
+@user_passes_test(lambda user: user.is_authenticated)
 def mis_comentarios(request, id):
     user = request.user
     comments = Blogcomment.objects.filter(blog_id=id)

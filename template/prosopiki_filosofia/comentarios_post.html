@@ -18,7 +18,7 @@
                 <th scope="row" style="vertical-align: middle">{{ blog.titulo }}</th>
                 <td style="vertical-align: middle">{{ blog.autor }}</td>
                 <td><img src="{{ blog.blogimg.imagen.url }}" width="300px" alt="post imagen"></td>
-                <td><a href="{% url 'PostCompleto' blog.id %}">ver más...</a></td>
+                <td style="vertical-align: middle"><a href="{% url 'PostCompleto' blog.id %}">ver más...</a></td>
             </tr>
 
         {% endfor %}

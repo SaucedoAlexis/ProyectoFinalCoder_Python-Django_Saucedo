@@ -1,8 +1,10 @@
 {% extends "index.html" %}
 
 {% block cambios %}
-    <form method="get" action="{% url 'ResultadosBusquedaPost' %}">
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Buscar!">
-    </form>
+    <div class="formedit">
+        <form method="get" action="{% url 'ResultadosBusquedaPost' %}">
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-primary" value="Buscar">
+        </form>
+    </div>
 {% endblock %}

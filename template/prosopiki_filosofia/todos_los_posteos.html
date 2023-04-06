@@ -7,7 +7,7 @@
             <div class="row">
                 {% for post in posteos %}
 
-                    <div class="col">
+                    <div class="col m-3">
 
                         <div class="card" style="width: 18rem;">
 
@@ -17,7 +17,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Autor: {{ post.autor }}</li>
                                     <li class="list-group-item">Título: {{ post.titulo }}</li>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item ">
                                         <a href="{% url 'PostCompleto' post.id %}" class="mx-2">ver más...</a>
                                         {% if user.is_superuser %}
                                             <a href="{% url 'EditarPost' post.id %}" class="mx-2">Editar</a>

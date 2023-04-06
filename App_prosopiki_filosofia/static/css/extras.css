@@ -22,4 +22,21 @@
     background-color: #fd7e1450;
     padding: 20px;
     border-radius: 15px;
+
+}
+
+.comment{
+    margin: auto;
+    background-color: #fd7e1450;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+}
+
+.vermas {
+    text-decoration: None;
+    border-radius: 20px;
+    margin: 1rem;
+    font-size: 2rem;
+    padding: 1rem;
 }

@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from Account.views import editar_usuario, login_account, register_account, perfil, perfil_ajeno
 
@@ -11,6 +11,6 @@ urlpatterns = [
     path('registrar/', register_account, name='accountRegister'),
     path('editar/', editar_usuario, name='accountEditar'),
     path('profile/', perfil, name='perfil'),
-    path('profil/<username>', perfil_ajeno, name='perfilAjeno')
+    path('profile/<username>', perfil_ajeno, name='perfilAjeno')
 
 ]

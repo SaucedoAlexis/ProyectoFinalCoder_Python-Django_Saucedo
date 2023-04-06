@@ -11,7 +11,7 @@ class Blog(models.Model):
     titulo = models.CharField(max_length=255)
     subtitulo = models.CharField(max_length=255)
     cuerpo = models.TextField()
-    autor = models.CharField(max_length=20)
+    autor = models.CharField(max_length=50)
     fecha = models.DateField()
 
 
