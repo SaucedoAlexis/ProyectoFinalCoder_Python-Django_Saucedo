@@ -20,6 +20,6 @@ from prosopiki_filosofia import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('prosopiki_filosofia/', include('App_prosopiki_filosofia.urls')),
+    path('', include('App_prosopiki_filosofia.urls')),
     path('Account/', include('Account.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
